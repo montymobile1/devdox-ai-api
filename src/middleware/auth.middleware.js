@@ -51,7 +51,7 @@ const authenticate = async (req, res, next) => {
       // Add user to request object
       req.user = {
         id: user.id,
-        email: user.emailAddresses[0]?.emailAddress,
+        email: user.emailAddresses?.[0]?.emailAddress,
         firstName: user.firstName,
         lastName: user.lastName
       };
