@@ -36,32 +36,24 @@ const authenticate = async (req, res, next) => {
     // Verify token with Clerk
     // Note: In a real implementation, this would use Clerk's verifyToken or similar function
     // For now, this is a placeholder as actual implementation would depend on Clerk SDK usage
-    try {
-      // This is a placeholder for actual Clerk token verification
-      // const user = await clerk.verifyToken(token);
-      
-      // For demonstration purposes only
-      const userId = 'clerk-user-id'; // This would come from the verified token
-      const user = await users.getUser(userId);
-      
-      if (!user) {
-        return next(new AppError('User not found', StatusCodes.UNAUTHORIZED));
-      }
-      
-      // Add user to request object
-      req.user = {
-        id: user.id,
-        email: user.emailAddresses?.[0]?.emailAddress,
-        firstName: user.firstName,
-        lastName: user.lastName
-      };
-      
-      return next();
-    } catch (error) {
-      return next(new AppError('Invalid token', StatusCodes.UNAUTHORIZED));
+    const userId = 'clerk-user-id'; // This would come from the verified token
+    const user = await users.getUser(userId);
+    
+    if (!user) {
+      return next(new AppError('User not found', StatusCodes.UNAUTHORIZED));
     }
+    
+    // Add user to request object
+    req.user = {
+      id: user.id,
+      email: user.emailAddresses?.[0]?.emailAddress,
+      firstName: user.firstName,
+      lastName: user.lastName
+    };
+    
+    return next();
   } catch (error) {
-    return next(error);
+    return next(new AppError('Invalid token', StatusCodes.UNAUTHORIZED));
   }
 };
 
