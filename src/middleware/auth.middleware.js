@@ -24,23 +24,22 @@ const authenticate = async (req, res, next) => {
     // Get token from Authorization header
     const authHeader = req.headers?.authorization;
     if (!authHeader?.startsWith('Bearer ')) {
-      return next(new AppError('Authentication required', StatusCodes.UNAUTHORIZED));
+      throw new AppError('Authentication required', StatusCodes.UNAUTHORIZED);
     }
 
     const token = authHeader.split(' ')[1];
 
     if (!token) {
-      return next(new AppError('Authentication required', StatusCodes.UNAUTHORIZED));
+      throw new AppError('Authentication required', StatusCodes.UNAUTHORIZED);
     }
 
-    // Verify token with Clerk
     // Note: In a real implementation, this would use Clerk's verifyToken or similar function
     // For now, this is a placeholder as actual implementation would depend on Clerk SDK usage
     const userId = 'clerk-user-id'; // This would come from the verified token
     const user = await users.getUser(userId);
     
     if (!user) {
-      return next(new AppError('User not found', StatusCodes.UNAUTHORIZED));
+      throw new AppError('User not found', StatusCodes.UNAUTHORIZED);
     }
     
     // Add user to request object
@@ -51,8 +50,11 @@ const authenticate = async (req, res, next) => {
       lastName: user.lastName
     };
     
-    return next();
+    next();
   } catch (error) {
+    if (error instanceof AppError) {
+      return next(error);
+    }
     return next(new AppError('Invalid token', StatusCodes.UNAUTHORIZED));
   }
 };
