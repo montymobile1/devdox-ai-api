@@ -22,8 +22,8 @@ const authenticate = async (req, res, next) => {
     }
 
     // Get token from Authorization header
-    const authHeader = req.headers.authorization;
-    if (!authHeader || !authHeader.startsWith('Bearer ')) {
+    const authHeader = req.headers?.authorization;
+    if (!authHeader?.startsWith('Bearer ')) {
       return next(new AppError('Authentication required', StatusCodes.UNAUTHORIZED));
     }
 
