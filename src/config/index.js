@@ -24,6 +24,11 @@ const config = {
     secretKey: process.env.CLERK_SECRET_KEY,
     publishableKey: process.env.CLERK_PUBLISHABLE_KEY,
   },
+
+  // Encryption configuration
+  encryption: {
+    masterKey: process.env.ENCRYPTION_MASTER_KEY,
+  },
   
   // CORS configuration
   cors: {
