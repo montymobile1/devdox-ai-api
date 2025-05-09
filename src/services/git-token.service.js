@@ -50,15 +50,11 @@ const getToken = async (tokenId, userId) => {
   }
 
   // Decrypt token value
-  try {
-    const decryptedValue = decrypt(data.token_value, data.iv, config.encryption.masterKey);
-    return {
-      ...data,
-      token_value: decryptedValue,
-    };
-  } catch (error) {
-    throw new AppError('Failed to decrypt token', StatusCodes.INTERNAL_SERVER_ERROR);
-  }
+  const decryptedValue = decrypt(data.token_value, data.iv, config.encryption.masterKey);
+  return {
+    ...data,
+    token_value: decryptedValue,
+  };
 };
 
 module.exports = {
