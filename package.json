@@ -13,7 +13,7 @@
     "lint:fix": "eslint . --fix"
   },
   "dependencies": {
-    "@clerk/clerk-sdk-node": "^5.1.6",
+    "@clerk/express": "^0.1.0",
     "@supabase/supabase-js": "^2.38.4",
     "cors": "^2.8.5",
     "dotenv": "^16.3.1",
